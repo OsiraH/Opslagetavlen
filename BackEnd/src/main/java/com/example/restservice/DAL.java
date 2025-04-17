@@ -9,12 +9,17 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
-public class DAL { 
+public class DAL {
+    private static final Logger log = LoggerFactory.getLogger(DAL.class);
+
   public static void main(String[] args) {
-    File storage = new File("storage.txt");
+
+    File storage = new File("./BackEnd/src/main/java/com/example/restservice/storage.txt");
     if (storage.exists()) {
       System.out.println("File name: " + storage.getName());
       System.out.println("Absolute path: " + storage.getAbsolutePath());
@@ -54,13 +59,12 @@ public class DAL {
 
     public ArrayList<Post> GetPosts(){
         ArrayList<Post> posts = new ArrayList<Post>();
-
+        log.info("Working Directory = " + System.getProperty("user.dir"));
         // Open the file
-        FileInputStream fstream;
         try {
-            fstream = new FileInputStream("storage.txt");
+            FileInputStream input = new FileInputStream("./BackEnd/src/main/java/com/example/restservice/storage.txt");
                   // Get the object of DataInputStream
-            DataInputStream in = new DataInputStream(fstream);
+            DataInputStream in = new DataInputStream(input);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
             String strLine;

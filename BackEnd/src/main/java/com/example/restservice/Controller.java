@@ -26,8 +26,7 @@ public class Controller {
 
 	@GetMapping("/posts")
 	public ArrayList<Post> posts() {
-		ArrayList<Post> posts = dal.GetPosts();
-		return posts;
+		return dal.GetPosts();
 	}
 
 	@PostMapping("posts")
