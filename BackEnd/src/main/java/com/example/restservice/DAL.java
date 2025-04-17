@@ -1,4 +1,7 @@
 package com.example.restservice;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -8,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList; 
 
+@Component
 public class DAL { 
   public static void main(String[] args) {
     File storage = new File("storage.txt");
