@@ -1,4 +1,10 @@
-[1,Ken,You wanna go for a ride?,1997-07-16T19:20:30.45+01:00],
-[2,Barbie,Sure Ken!,1997-07-16T19:21:30.45+01:00]
-    
-    
+1,/Ken,/You wanna go for a ride?,/1997-07-16T19:20:30.45
+2,/Barbie,/Sure Ken!,/1997-07-16T19:21:30.453,/test,/hello hello,/2025-04-17T19:28:51.146230300%n3,/test,/hello hello,/2025-04-17T19:30:23.086026200%n4,/test,/hello hello,/2025-04-17T19:30:36.464090200
+3,/test,/hello hello,/2025-04-17T19:31:27.550896400
+4,/test,/hello hello,/2025-04-17T19:31:30.253717800
+5,/test,/hello hello,/2025-04-17T19:31:33.276941
+6,/test,/hello hello,/2025-04-17T20:26:37.675276400
+7,/måneskin,/honey are you coming,/2025-04-17T20:27:54.854952400
+8,/test,/does it work,/2025-04-18T19:39:19.669298700
+9,/test,/kakao,/2025-04-18T19:49:15.257865
+10,/test,/kawabunga,/2025-04-18T19:52:23.650037600

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Consumer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+
+    .post {
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .post h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .post p {
+      margin: 5px 0 0;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Create new post</h1>
+  <form method="post" onsubmit="createPost(event)">
+    <label for="author">Author:</label><br>
+    <input type="text" id="author" name="author"><br>
+    <label for="content">Content:</label><br>
+    <input type="text" id="content" name="content">
+    <input type="submit" value="Submit">
+  </form>
+
+  <h1>Posts</h1>
+  <div id="posts-container">
+    <!-- Posts will be dynamically loaded here -->
+  </div>
+
+  <script>
+    // Define API endpoint
+    const apiEndpoint = 'http://localhost:8081/posts';
+
+    //Creates cookie
+    document.cookie = "lastConnected="+Date.now();
+
+    function getCookie(cdate) {
+      let date = cdate + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    // Function to post posts to the API
+    async function createPost(event) {
+      event.preventDefault();
+      const authorFill = document.getElementById('author').value;
+      const contentFill = document.getElementById('content').value;
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          author: authorFill,
+          content: contentFill
+        })
+      });
+      const json = await response.json();
+      console.log(json);
+
+    }
+
+    // Function to fetch posts from the API
+    async function fetchPosts() {
+      try {
+        // Fetch data
+        const response = await fetch(apiEndpoint);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Parse JSON response
+        const posts = await response.json();
+
+        // Get container element where posts will be displayed
+        const postsContainer = document.getElementById('posts-container');
+
+        //Create stack to process posts first in last out
+         const postArray = [];
+
+         //Get  last connection date from cookie
+         let conDate = getCookie("lastConnected");
+
+        // Loop through posts and build HTML for each
+        posts.forEach(post => {
+          const postElement = document.createElement('div');
+          postElement.className = 'post';
+          postElement.innerHTML = `
+            <h3>${post.author || 'No Author'}</h3> <p>|| ${post.creationDate || 'No Creation Time'}</p>
+            <p>${post.content || 'No Content'}</p>
+          `;
+
+          if (post.creationDate > document.cookie.lastConnected){
+            postElement.backgroundColor = "green";
+          }
+
+          postArray.push(postElement);
+        });
+
+        let reverseArray = postArray.reverse();
+        reverseArray.forEach(item => {
+                  postsContainer.appendChild(item);
+                }
+        );
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    }
+
+    // Call the function to fetch posts on page load
+    fetchPosts();
+  </script>
+</body>
+</html>

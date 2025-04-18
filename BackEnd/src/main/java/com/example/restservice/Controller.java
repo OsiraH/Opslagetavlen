@@ -1,12 +1,9 @@
 package com.example.restservice;
 import java.util.ArrayList;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.restservice.DAL;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -24,16 +21,25 @@ public class Controller {
 		return ("Hello");
 	}
 
+	@CrossOrigin
 	@GetMapping("/posts")
 	public ArrayList<Post> posts() {
 		return dal.GetPosts();
 	}
 
+	@CrossOrigin
 	@PostMapping("posts")
-	public String postMethodName(@RequestBody String entity) {
+	public String postNew(@RequestBody String entity) {
 		//TODO convert input to object parameters
-		Post newPost = new Post(entity, entity, null);
-		dal.AddPostToStorage(newPost);
+		System.out.println(entity);
+		ObjectMapper objectMapper = new ObjectMapper();
+        Post newPost = null;
+        try {
+            newPost = objectMapper.readValue(entity, Post.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        dal.AddPostToStorage(newPost);
 		return entity;
 	}
 	
