@@ -48,24 +48,6 @@
     // Define API endpoint
     const apiEndpoint = 'http://localhost:8081/posts';
 
-    //Creates cookie
-    document.cookie = "lastConnected="+Date.now();
-
-    function getCookie(cdate) {
-      let date = cdate + "=";
-      let ca = document.cookie.split(';');
-      for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return "";
-    }
-
     // Function to post posts to the API
     async function createPost(event) {
       event.preventDefault();
@@ -95,6 +77,16 @@
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
+        const cookieValue = document.cookie
+                  .split("; ")
+                  .find((row) => row.startsWith("lastConnected="))
+                  ?.split("=")[1];
+
+        if (cookieValue == null) {
+            const cookieValue = "0000-01-01T00:00:00.000Z";
+          }
+
+
         // Parse JSON response
         const posts = await response.json();
 
@@ -103,9 +95,6 @@
 
         //Create stack to process posts first in last out
          const postArray = [];
-
-         //Get  last connection date from cookie
-         let conDate = getCookie("lastConnected");
 
         // Loop through posts and build HTML for each
         posts.forEach(post => {
@@ -116,8 +105,11 @@
             <p>${post.content || 'No Content'}</p>
           `;
 
-          if (post.creationDate > document.cookie.lastConnected){
-            postElement.backgroundColor = "green";
+          console.log(post.creationDate);
+          console.log(cookieValue);
+          if (Date.parse(post.creationDate) > Date.parse(cookieValue)){
+            postElement.append("[NEW POST]")
+            console.log("[NEW POST]");
           }
 
           postArray.push(postElement);
@@ -128,6 +120,11 @@
                   postsContainer.appendChild(item);
                 }
         );
+
+        //Creates/Refresh cookie
+        let date = new Date().toJSON();
+        document.cookie = "lastConnected="+ date;
+
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
