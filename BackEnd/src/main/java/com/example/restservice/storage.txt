@@ -14,3 +14,7 @@
 14,/unkle reje,/brandevarme piger,/2025-04-19T07:19:39.020418
 15,/ambulance,/wee oo wee oo,/2025-04-19T07:28:56.540266800
 16,/politibil,/weeeeeeee oo weeeeeee oo,/2025-04-19T07:29:57.739497600
+17,/farfar,/hvad vover du,/2025-04-19T07:44:03.943420100
+18,/farmor,/hvad,/2025-04-19T07:45:51.788260900
+19,/farfar,/HVAD VOVER DU,/2025-04-19T07:46:08.718504600
+20,/uyyrt,/tyguih,/2025-04-19T07:54:44.172350300
