@@ -65,7 +65,7 @@
       });
       const json = await response.json();
       console.log(json);
-
+      location.reload();
     }
 
     // Function to fetch posts from the API
@@ -124,15 +124,17 @@
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
+
+      //Creates/Refresh cookie
+      let date = new Date().toJSON();
+      let expDate = new Date();
+      expDate.setDate(expDate.getDate() + 30);
+      document.cookie = "lastConnected="+ date + "; expires=" + expDate.toUTCString();
     }
     // Call the function to fetch posts on page load
     fetchPosts();
 
-    //Creates/Refresh cookie
-    let date = new Date().toJSON();
-    let expDate = new Date();
-    expDate.setDate(expDate.getDate() + 30);
-    document.cookie = "lastConnected="+ date + "; expires=" + expDate.toUTCString();
+
   </script>
 </body>
 </html>
